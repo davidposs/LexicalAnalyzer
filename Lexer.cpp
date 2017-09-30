@@ -179,7 +179,7 @@ void Lexer::getTokens(std::string inputFile) {
 				   through the real machine FSM to get the correct state*/
 				currentLexeme.runLexemeThroughReals();
 			}
-			else if (isAlphaOrPound(input)) {
+			else if (isAlphaOrPound(input) || isDigit(input)) {
 				currentLexeme.updateToken(input);
 				currentLexeme.updateType(Identifier);
 				currentLexeme.updateState(input);
