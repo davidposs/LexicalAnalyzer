@@ -72,6 +72,12 @@ void Lexer::getTokens(std::string inputFile) {
 	char c;
 	Token currentLexeme;
 	std::fstream inputCode(inputFile);
+	if (!inputCode.is_open()) {
+		std::cout << "Error opening file. Please rename it to 'sample.txt'"
+			<< std::endl << "Press enter to continue. " << std::endl;
+		std::cin.get();
+		return;
+	}
 	while (!inputCode.eof()) {
 		inputCode.get(c);
 		std::string input = std::string(1, c);
@@ -182,6 +188,12 @@ void Lexer::printLexemes(std::string filename) {
 	std::cout << "Printing lexemes to " << filename << std::endl;
 	std::ofstream output;
 	output.open(filename);
+	if (!output.is_open()) {
+		std::cout << "Error opening file. Please rename it to 'sample.txt'";
+		std::cout << std::endl;
+		std::cin.get();
+		return;
+	}
 	output << "Accepted Tokens:" << std::endl;
 	std::list<Pair>::iterator it;
 	for (it = lexemes_.begin(); it != lexemes_.end(); it++) {
