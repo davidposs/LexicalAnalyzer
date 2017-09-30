@@ -1,24 +1,25 @@
-#pragma once
-struct Pair {
-	Pair() : val1("empty"), val2("empty") {}
-	Pair(std::string l, std::string t) : val1(l), val2(t) {}
+/******************************************************************************
+* File:		Pair.h
+* Authors:	David Poss, Douglas Galm
+*
+* Usage:	Used to create list of lexeme:type pairs for easier output and 
+*			management. 
+* 
+******************************************************************************/
 
-	Pair(Token t) : val1(t.getToken()) {
-		switch (t.getType()) {
-		case(1): val2 = "integer";		break;
-		case(2): val2 = "real";			break;
-		case(3): val2 = "idenfitier";	break;
-		case(4): val2 = "operator";		break;
-		case(5): val2 = "keyword";		break;
-		case(6): val2 = "separator";	break;
-		default: val2 = "unknown";		break;
-		}
-	}
-	std::string val1;
-	std::string val2;
+#ifndef _PAIR_H_
+#define _PAIR_H_
+#include <string>
+#include <fstream>
 
-	friend std::ostream& operator<<(std::ostream& os, Pair P) {
-		os << P.val1 << " " << P.val2 << " ";
-		return os;
-	}
+class Pair {
+public:
+	Pair();
+	Pair(std::string l, std::string t);
+
+	friend std::ostream& operator<<(std::ostream& os, Pair P);
+private:
+	std::string val1, val2;
 };
+
+#endif
