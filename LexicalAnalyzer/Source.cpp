@@ -3,6 +3,10 @@
 * David Poss, Douglas Galm
 * CPSC 323
 * Professor Choi
+*
+* Notes: see README for information on compiling and running. Should work on
+* both linux and windows systems.
+*
 ******************************************************************************/
 
 #include "Token.h"

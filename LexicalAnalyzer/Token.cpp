@@ -9,6 +9,7 @@
 
 #include "Token.h"
 #include "Helpers.h"
+#include <iostream>
 
 Token::Token() : state_(0), accept_(false), token_(""), type_(Unknown) { }
 

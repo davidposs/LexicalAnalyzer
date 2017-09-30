@@ -9,9 +9,9 @@
 *
 ******************************************************************************/
 
-#include <string>
 #ifndef _GLOBALS_H_
 #define _GLOBALS_H_
+#include <string>
 
 enum TokenType {
 	Integer		= 1,

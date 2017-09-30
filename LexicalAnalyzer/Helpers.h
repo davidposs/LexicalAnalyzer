@@ -9,8 +9,8 @@
 
 #ifndef _HELPERS__H_
 #define _HELPERS__H_
-
 #include "globals.h"
+
 /* Searches a string array for a lexeme, returns true if found */
 bool isOfType(const std::string* type, std::string lexeme, size_t size);
 
