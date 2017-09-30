@@ -35,7 +35,10 @@ public:
 	void updateState(std::string input);
 	
 	/* Manually change the state. Useful when switching from Integer to Real */
-	void updateState(int state);
+	void updateStateManually(int state);
+
+	/* Function to run an Integer through the real FSM if we find a '.' */
+	void runLexemeThroughReals();
 
 	/* Change token type to a new type */
 	void updateType(TokenType type);

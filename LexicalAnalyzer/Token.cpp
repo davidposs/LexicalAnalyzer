@@ -18,6 +18,7 @@ Token::Token(int state, bool accept, std::string token, TokenType type)
 void Token::updateType(TokenType type) {
 	type_ = type;
 }
+
 void Token::updateToken(std::string val) {
 	token_ += val;
 }
@@ -25,9 +26,11 @@ void Token::updateToken(std::string val) {
 bool Token::isReal() {
 	return (type_ == Real);
 }
+
 bool Token::isInteger() {
 	return (type_ == Integer);
 }
+
 bool Token::isIdentifier() {
 	return (type_ == Identifier);
 }
@@ -51,7 +54,7 @@ void Token::updateState(std::string input) {
 			if (input == ".") {
 				state_ = realTable[state_][1];
 			}
-			else {
+			else if (isDigit(input)) {
 				state_ = realTable[state_][0];
 			}
 			accept_ = (state_ == realAcceptStates[0]);
@@ -78,8 +81,15 @@ void Token::updateState(std::string input) {
 	}
 } /* end updateState */
 
-void Token::updateState(int state) {
+void Token::updateStateManually(int state) {
 	state_ = state;
+}
+
+void Token::runLexemeThroughReals() {
+	std::string temp = getToken();
+	for (size_t j = 0; j < temp.length(); j++) {
+		updateState(std::string(1, temp[j]));
+	}
 }
 
 std::ostream& operator<<(std::ostream& os, const Token& t) {

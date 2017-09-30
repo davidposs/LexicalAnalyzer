@@ -14,12 +14,17 @@ while(low<high)
 	write(convert[low]);
 	low := low + step#xy;
 	}
+	<=
+
+	>=
+
 
 	this##shouldntwork
 
 	#neithershouldthis
 	33
 	true
+	.988
 	44..44
 	223.
 	33.3.31

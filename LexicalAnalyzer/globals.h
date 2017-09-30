@@ -38,13 +38,13 @@ const std::string separators[NUM_SEPARATORS] = {
 
 #define NUM_OPERATORS 11
 const std::string operators[NUM_OPERATORS] = {
-	"=",		"+",		"-",		"=",		"*",
-	"/",		"/=",		">",		"<",		"=>",		"<=" };
+	"=",		"+",		"-",		"=",		">=",		"/="		
+	"/",		">",		"<",		"*",		"<=" };
 
 #define NUM_MISCELLANEOUS 12
 const std::string miscellaneous[NUM_MISCELLANEOUS] = {
-	"`",		"~",		"!",		"$",	"%",	"&",
-	"^",		"_",		"|",		"\\",	"?",	","
+	"`",		"~",		"!",		"$",		"%",		"&",
+	"^",		"_",		"|",		"\\",		"?",		","
 };
 
 #define NUM_TOKENS 7
@@ -72,10 +72,10 @@ const int intAcceptStates[] = { 1 };
 
 const int realTable[4][2] = {
 	/* Inputs		d	'.'		*/
-	/* State 1 */	1,	-1,
-	/* State 2 */	2,	 2,
-	/* State 3 */	3,	-1,
-	/* State 4 */	3,	-1
+	/* State 0 */	1,	-1,
+	/* State 1 */	1,	 2,
+	/* State 2 */	3,	-1,
+	/* State 3 */	3,	-1
 	/* -1 = empty set			*/
 };
 const int realAcceptStates[] = { 3 };

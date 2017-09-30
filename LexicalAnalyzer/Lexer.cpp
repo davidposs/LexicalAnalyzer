@@ -14,7 +14,7 @@
 #include <iostream>
 Lexer::Lexer() : lexemes_(std::list<Pair>()), unknowns_(std::list<Pair>()) {}
 
-TokenType Lexer::charToTokenType(std::string str) {
+TokenType Lexer::strToTokenType(std::string str) {
 	if (isAlphaOrPound(str)) {
 		return Identifier;
 	}
@@ -25,14 +25,16 @@ TokenType Lexer::charToTokenType(std::string str) {
 	else if (str == ".") {
 		return Real;
 	}
-	else {
+	else  {
 		return Unknown;
 	}
 }
 /* Function to add a lexeme to the list */
 void Lexer::addLexeme(Token& lexeme) {
 	if (!lexeme.isAccepted()) {
-		unknowns_.push_back(Pair(lexeme.getToken(), tokenTypeToString(lexeme.getType())));
+		unknowns_.push_back(Pair(lexeme.getToken(), 
+			tokenTypeToString(lexeme.getType())));
+		lexeme.clear();
 		return;
 	}
 	switch (lexeme.getType()) {
@@ -52,7 +54,7 @@ void Lexer::addLexeme(Token& lexeme) {
 		lexemes_.push_back(Pair(lexeme.getToken(), "operator"));
 		break;
 	case(Separator):
-		lexemes_.push_back(Pair(separatorToString(lexeme.getToken()), "separator"));
+		lexemes_.push_back(Pair(sepToString(lexeme.getToken()), "separator"));
 		break;
 	case(Unknown):
 		unknowns_.push_back(Pair(lexeme.getToken(), "Unknown"));
@@ -64,7 +66,7 @@ void Lexer::addLexeme(Token& lexeme) {
 	lexeme.clear();
 }
 
-/*		Main lexer function		*/
+/* Main lexer function */
 void Lexer::getTokens(std::string inputFile) {
 	/* Read character from file one at a time, until eof */
 	char c;
@@ -139,7 +141,10 @@ void Lexer::getTokens(std::string inputFile) {
 		else { /* input doesn't terminate a token */
 			if (currentLexeme.getToken().length() == 0) {
 				currentLexeme.updateToken(input);
-				currentLexeme.updateType(charToTokenType(input));
+				currentLexeme.updateType(strToTokenType(input));
+				if (input == ".") {
+					currentLexeme.updateType(Real);
+				}
 				currentLexeme.updateState(input);
 				continue;
 			}
@@ -158,7 +163,10 @@ void Lexer::getTokens(std::string inputFile) {
 			else if (currentLexeme.isInteger() && input == ".") {
 				currentLexeme.updateToken(input);
 				currentLexeme.updateType(Real);
-				currentLexeme.updateState(realTable[1][0]);
+				currentLexeme.updateStateManually(0);
+				/* Switched from Integer to real, so run current token 
+				   through the real machine FSM to get the correct state*/
+				currentLexeme.runLexemeThroughReals();
 			}
 			else if (isAlphaOrPound(input)) {
 				currentLexeme.updateToken(input);

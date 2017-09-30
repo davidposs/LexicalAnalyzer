@@ -28,7 +28,7 @@ bool isDigit(std::string str) {
 bool isAlphaOrPound(std::string str) {
 	return ((isalpha(str[0])) || str[0] == '#');
 }
-std::string separatorToString(std::string separator) {
+std::string sepToString(std::string separator) {
 	if (separator == "\n") {
 		return "\\n";
 	}
@@ -42,5 +42,5 @@ std::string separatorToString(std::string separator) {
 }
 
 std::string tokenTypeToString(TokenType t) {
-	return Tokens[t];
+	return Tokens[t - 1];
 }

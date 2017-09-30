@@ -25,7 +25,7 @@ bool isDigit(std::string str);
 bool isAlphaOrPound(std::string str);
 
 /* Converts separator characters to printable strings */
-std::string separatorToString(std::string separator);
+std::string sepToString(std::string separator);
 
 /* Converts a TokenType enum value to a printable string */
 std::string tokenTypeToString(TokenType t);

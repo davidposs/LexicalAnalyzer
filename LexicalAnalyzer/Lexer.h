@@ -2,7 +2,7 @@
 * File:		Lexer.h
 * Authors:	David Poss, Douglas Galm
 *
-* Usage:	Declares Lexer class. This and the Token class do the heavy lifting 
+* Usage:	Declares Lexer class. This and the Token class do the heavy lifting
 *			for the	lexical analysis. 
 *			Keeps two lists: one for accepted tokens, and one for rejected ones
 *			that either don't belong to any token type we know of yet, or don't
@@ -22,7 +22,7 @@ public:
 	Lexer();
 
 	/* Returns possible TokenType based on value of input string */
-	TokenType charToTokenType(std::string str);
+	TokenType strToTokenType(std::string str);
 
 	/* Function to add a lexeme to the appropriate list */
 	void addLexeme(Token& lexeme);
