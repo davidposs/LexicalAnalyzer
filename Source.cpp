@@ -12,8 +12,10 @@
 #include <fstream>
 #include <list>
 
-#define ERROR_STATE -1
+#define ERROR_STATE  -1
 #define DEFAULT_STATE 0
+
+#define FILEPATH "C:\\Users\\david\\Documents\\Visual Studio 2017\\Projects\\LexicalAnalyzer\\LexicalAnalyzer\\sample.txt"
 
 #define NUM_KEYWORDS 13
 std::string keywords[NUM_KEYWORDS] = {
@@ -132,30 +134,30 @@ public:
 	}
 
 	void updateState(std::string input) {
+		/* Integer */
 		if (type_ == Integer && isDigit(input)) {
 			std::cout << "input is: " << input << std::endl;
 			state_ = intAcceptStates[0];
 			accept_ = true;
 		}
 
-		if (type_ == Real && (isDigit(input)) || input == ".") {
+		/* Real */
+		else if (type_ == Real) { // && (isDigit(input)) || input == ".") {
 			if (state_ >= 0) {
 				if (input == ".") {
 					std::cout << "found a period!  " << state_ << std::endl << std::endl;
 					state_ = realTable[state_][1];
+					std::cout << " state after period is: " << state_ << std::endl;
 				}
 				else {
 					state_ = realTable[state_][0];
 				}
 				accept_ = (state_ == realAcceptStates[0]);
 			}
+			else {
+				accept_ = false;
+			}
 		}
-		else {
-			accept_ = false;
-		}
-	
-		
-
 
 		/* Identifier */
 		if (type_ == Identifier && isAlphaOrPound(input)) {
@@ -270,15 +272,6 @@ public:
 		for (std::string::iterator i = inputCode.begin(); i != inputCode.end(); i++) {
 			std::string input = std::string(1, *i);
 
-			if (charToTokenType(input) == Real && currentLexeme.getType() == Integer) {
-				currentLexeme.updateState(realTable[2][0]);
-				currentLexeme.updateType(Real);
-			}
-			else if (charToTokenType(input) == Integer && currentLexeme.getType() != Real) {
-				currentLexeme.updateType(Integer);
-				std::cout << currentLexeme.getToken() << std::endl;
-			}
-
 			// See if input terminates a token
 			if (isSeparator(input) || isOperator(input) || isSpace(input)) {
 				if (isKeyword(currentLexeme.getToken())) {
@@ -291,9 +284,10 @@ public:
 				if (currentLexeme.isIdentifier()) {
 					addLexeme(currentLexeme);
 				}
-				if (currentLexeme.isInteger()) { 
+				if (currentLexeme.isInteger()) {
 					std::cout << currentLexeme.getToken() << " should be an integer\n";
-					addLexeme(currentLexeme); 
+					std::cout << currentLexeme.isAccepted() << std::endl;
+					addLexeme(currentLexeme);
 				}
 				if (currentLexeme.isReal()) {
 					addLexeme(currentLexeme);
@@ -309,27 +303,36 @@ public:
 					}
 					else { addLexeme(Token(0, true, input, Operator)); }
 				}
-
 				currentLexeme.clear();
 			}
-			// Don't want to make currentLexeme = " "
-			//if (!isSpace(input)) {
-			//	currentLexeme.clear();
-			//	currentLexeme.updateToken(input);
-			//}
+
 			else { /* input doesn't terminate a token */
-				if (isDigit(input) && currentLexeme.getType() == Integer) {
+				if (currentLexeme.getToken().length() == 0) {
 					currentLexeme.updateToken(input);
-					std::cout << "\ninteger: " << currentLexeme.getToken() << std::endl;
+					currentLexeme.updateType(charToTokenType(input));
 					currentLexeme.updateState(input);
-						std::cout << "11 should be lkjhlkjaccepted\n\n";
-					if (currentLexeme.isAccepted()) {
-					}
+					continue;
 				}
-				else if (input == "." || (isDigit(input) && currentLexeme.getType() == Real)) {
+				if (currentLexeme.isInteger() && isDigit(input)) {
 					currentLexeme.updateToken(input);
 					currentLexeme.updateState(input);
 				}
+				else if (currentLexeme.isReal() && isDigit(input)) {
+					currentLexeme.updateToken(input);
+					currentLexeme.updateState(input);
+				}
+
+				else if (currentLexeme.isReal() && input == ".") {
+					currentLexeme.updateToken(input);
+					currentLexeme.updateState(input);
+				}
+
+				else if (currentLexeme.isInteger() && input == ".") {
+					currentLexeme.updateToken(input);
+					currentLexeme.updateType(Real);
+					currentLexeme.updateState(realTable[1][0]);
+				}
+
 				// We are reading an identifier or keyword
 				else if (isAlphaOrPound(input)) {
 					currentLexeme.updateToken(input);
@@ -351,14 +354,40 @@ private:
 	std::list<Pair> lexemes_;
 };
 
+std::string getFilePath(const std::string& fileName) {
+	std::string path = __FILE__; //gets source code path, include file name
+	path = path.substr(0, 1 + path.find_last_of('\\')); //removes file name
+	path += fileName; //adds input file to path
+	//path = "\\" + path;
+	return path;
+}
 
 int main() {
 
-	std::string inputCode = "while (fahr#x <= upper) a = 23.00  f##f #ff f#f#ff 11 43.34.32 ";
+	std::string inputCode = "while (fahr#x <= upper) a = 23.00 .343  f##f #ff f#f#ff 11 43";
+	std::ifstream inputFile;
+
+	std::string filename = getFilePath("sample.txt");
+	inputFile.open(filename, 'r');
+	char c;
+	std::string str = "";
+	if (inputFile.is_open()) {
+		while (!inputFile.eof()) {
+			std::cout << "halp";
+			inputFile.get(c);
+			str = std::string(1, c);
+			std::cout << str << std::endl;
+			//str.clear();
+		}
+		inputFile.close();
+	}
+	else {
+		std::cout << "didn't open\n";
+	}
 	Token token;
 	Lexer lexer;
-	lexer.getTokens(inputCode);
-	lexer.printLexemes();
+	//lexer.getTokens(inputCode);
+	//lexer.printLexemes();
 
 	return 0;
 }
