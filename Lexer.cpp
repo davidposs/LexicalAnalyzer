@@ -78,8 +78,8 @@ void Lexer::getTokens(std::string inputFile) {
 		std::cin.get();
 		return;
 	}
-	while (!inputCode.eof()) {
-		inputCode.get(c);
+	//inputCode.get(c);
+	while (inputCode.get(c)) {
 		std::string input = std::string(1, c);
 		/* See if input terminates a token */
 		if (isOfType(separators, input, NUM_SEPARATORS)
@@ -90,18 +90,23 @@ void Lexer::getTokens(std::string inputFile) {
 			if (isOfType(keywords, currentLexeme.getToken(), NUM_KEYWORDS)) {
 				currentLexeme.updateType(Keyword);
 				addLexeme(currentLexeme);
+				inputCode.unget();
 			}
 			else if (isSpace(input) && currentLexeme.getToken() != "") {
 				addLexeme(currentLexeme);
+				inputCode.unget();
 			}
 			else if (currentLexeme.isIdentifier()) {
 				addLexeme(currentLexeme);
+				inputCode.unget();
 			}
 			else if (currentLexeme.isInteger()) {
 				addLexeme(currentLexeme);
+				inputCode.unget();
 			}
 			else if (currentLexeme.isReal()) {
 				addLexeme(currentLexeme);
+				inputCode.unget();
 			}
 			else if (isOfType(separators, input, NUM_SEPARATORS)) {
 				Token t(0, true, input, Separator);
