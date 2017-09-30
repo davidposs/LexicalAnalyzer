@@ -7,7 +7,6 @@
 * 
 ******************************************************************************/
 
-#pragma once
 #include "globals.h"
 
 bool isOfType(const std::string* type, std::string lexeme, size_t size) {

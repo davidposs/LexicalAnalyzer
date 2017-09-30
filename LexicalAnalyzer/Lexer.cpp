@@ -8,7 +8,7 @@
 *          their appropriate FSM.
 *
 ******************************************************************************/
-#pragma once
+
 #include "Lexer.h"
 #include "Helpers.h"
 #include <iostream>

@@ -6,9 +6,9 @@
 *			file for more information about specific methods.
 *
 ******************************************************************************/
+
 #include "Token.h"
 #include "Helpers.h"
-#pragma once
 
 Token::Token() : state_(0), accept_(false), token_(""), type_(Unknown) { }
 

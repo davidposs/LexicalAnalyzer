@@ -6,7 +6,7 @@
 *          modified, and inserted into a list.
 * 
 ******************************************************************************/
-#pragma once
+
 #include "Pair.h"
 
 Pair::Pair() : val1(""), val2("") {}

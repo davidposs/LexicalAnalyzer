@@ -12,7 +12,6 @@
 
 #ifndef _LEXER_H_
 #define _LEXER_H_
-#pragma once
 #include "Pair.h"
 #include <list>
 #include "Token.h"
