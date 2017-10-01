@@ -35,10 +35,10 @@ const std::string separators[NUM_SEPARATORS] = {
 	"(",		")",		",",		";",		"@",
 	":",		"%%",		"\t" };
 
-#define NUM_OPERATORS 11
+#define NUM_OPERATORS 12
 const std::string operators[NUM_OPERATORS] = {
-	"=",		"+",		"-",		"=",		">=",		"/="		
-	"/",		">",		"<",		"*",		"<=" };
+	"=",		"+",		"-",		"=",		">=",		"/=",		
+	"/",		">",		"<",		"*",		"<=",		":=" };
 
 #define NUM_MISCELLANEOUS 12
 const std::string miscellaneous[NUM_MISCELLANEOUS] = {

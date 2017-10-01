@@ -78,16 +78,16 @@ void Lexer::getTokens(std::string inputFile) {
 		std::cin.get();
 		return;
 	}
-	//inputCode.get(c);
 	while (inputCode.get(c)) {
-
 		std::string input = std::string(1, c);
 		/* See if input terminates a token */
+
 		if (isOfType(separators, input, NUM_SEPARATORS)
 			|| isOfType(operators, input, NUM_OPERATORS)
 			|| isOfType(miscellaneous, input, NUM_MISCELLANEOUS)
-			|| isSpace(input))
+			|| isSpace(input))	
 		{
+
 			if (isOfType(keywords, currentLexeme.getToken(), NUM_KEYWORDS)) {
 				currentLexeme.updateType(Keyword);
 				addLexeme(currentLexeme);
@@ -110,6 +110,19 @@ void Lexer::getTokens(std::string inputFile) {
 				inputCode.unget();
 			}
 			else if (isOfType(separators, input, NUM_SEPARATORS)) {
+				if (input == ":") {
+					char temp;
+					inputCode.get(temp);
+					std::string nextInput = std::string(1, temp);
+					if (input + nextInput == ":=") {
+						Token t(0, true, input + nextInput, Operator);
+						addLexeme(t);
+						continue;
+					}
+					else {
+						inputCode.unget();
+					}
+				}
 				Token t(0, true, input, Separator);
 				addLexeme(t);
 			}
@@ -136,6 +149,7 @@ void Lexer::getTokens(std::string inputFile) {
 					if (input + nextInput == "%%") {
 						Token t(0, true, input + nextInput, Separator);
 						addLexeme(t);
+						continue;
 					}
 					else {
 						inputCode.unget();
@@ -160,7 +174,7 @@ void Lexer::getTokens(std::string inputFile) {
 				currentLexeme.updateState(input);
 				continue;
 			}
-			if (currentLexeme.isInteger() && isDigit(input)) {
+			else if (currentLexeme.isInteger() && isDigit(input)) {
 				currentLexeme.updateToken(input);
 				currentLexeme.updateState(input);
 			}
@@ -180,7 +194,7 @@ void Lexer::getTokens(std::string inputFile) {
 				   through the real machine FSM to get the correct state*/
 				currentLexeme.runLexemeThroughReals();
 			}
-			else if (currentLexeme.isIdentifier()) { //(isAlphaOrPound(input) || isDigit(input)) {
+			else if (currentLexeme.isIdentifier()) {
 				currentLexeme.updateToken(input);
 				currentLexeme.updateType(Identifier);
 				currentLexeme.updateState(input);
