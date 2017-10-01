@@ -80,6 +80,7 @@ void Lexer::getTokens(std::string inputFile) {
 	}
 	//inputCode.get(c);
 	while (inputCode.get(c)) {
+
 		std::string input = std::string(1, c);
 		/* See if input terminates a token */
 		if (isOfType(separators, input, NUM_SEPARATORS)
@@ -179,7 +180,7 @@ void Lexer::getTokens(std::string inputFile) {
 				   through the real machine FSM to get the correct state*/
 				currentLexeme.runLexemeThroughReals();
 			}
-			else if (isAlphaOrPound(input) || isDigit(input)) {
+			else if (currentLexeme.isIdentifier()) { //(isAlphaOrPound(input) || isDigit(input)) {
 				currentLexeme.updateToken(input);
 				currentLexeme.updateType(Identifier);
 				currentLexeme.updateState(input);
