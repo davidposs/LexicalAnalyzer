@@ -12,7 +12,9 @@
 #include "Token.h"
 #include "Helpers.h"
 #include "Lexer.h"
+#include "Syntax.h"
 #include <iostream>
+
 int main() {
 	std::string input;
 	std::string output;
@@ -23,6 +25,7 @@ int main() {
 
 		Lexer lexer;
 		if (lexer.getTokens(input)) {
+			functionA(lexer.lexemes_, true);
 			lexer.printLexemes(converToOutputName(input));
 		}
 		std::cin.clear();

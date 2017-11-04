@@ -33,7 +33,6 @@ public:
 	/*  Print the lexeme - token type pairs to a file*/
 	void printLexemes(std::string filename);
 
-private:
 	std::list<Pair> lexemes_;
 	std::list<Pair> unknowns_;
 };

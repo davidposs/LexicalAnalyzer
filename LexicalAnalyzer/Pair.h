@@ -12,13 +12,15 @@
 #include <string>
 #include <fstream>
 
-class Pair {
-public:
+//class Pair {
+struct Pair {
+//public:
 	Pair();
 	Pair(std::string l, std::string t);
 
 	friend std::ostream& operator<<(std::ostream& os, Pair P);
-private:
+//private:
+	// val1 = token, val2 = token type
 	std::string val1, val2;
 };
 
